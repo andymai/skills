@@ -120,7 +120,9 @@ Rules for the text:
 - Use the project's own words for its domain objects.
 
 **Local files**: write one file for each ticket, named `<NN>-<short-title>.md`. Number
-from `01` in dependency order, with the blockers first.
+from `01` in dependency order, with the blockers first. Before you write, list the
+folder. If it has ticket files from an earlier run, do not overwrite them. Ask the user
+if you must replace that set or use a new folder.
 
 **A tracker**: a ticket is prose that other people read. Before you publish, invoke the
 `team:outward-writing` skill with the Skill tool, and follow it for the text of each
