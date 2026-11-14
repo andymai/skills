@@ -1,0 +1,25 @@
+commands/upgrade-dep.md
+  s_1d9a0e6a4c0242::t_ea4b39a317d1b3 23
+scripts/lint.py
+  s_1d9a0e6a4c0242::t_29ff8956a11677 88-93
+scripts/tests/test_lint.py
+  s_1d9a0e6a4c0242::t_9d9f77994206ac 155-167
+skills/shepherd-pr/SKILL.md
+  s_1d9a0e6a4c0242::t_73b3e9b9579e2f 36-38,43-46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0b005022f46d6c154890ac2fb1b1937bdda31445",
+  "prompts": {},
+  "sessions": {
+    "s_1d9a0e6a4c0242": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4ceacb9d-a91a-4811-a529-9ef87bc9946b",
+        "model": "claude-fable-5-2"
+      },
+      "human_author": "Andy Aragon <hi@andymai.com>"
+    }
+  }
+}
