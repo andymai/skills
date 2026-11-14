@@ -88,6 +88,11 @@ These [Agent Skills](https://code.claude.com/docs/en/skills) are not specific to
 | **shepherd-pr**  | "shepherd the PR", "drive this PR to green", "clean up the PR" | Runs an autonomous loop on the PR of the current branch. It resolves review comments, fixes check-run findings (including neutral-status reviewers that the CI rollup hides), and waits for CI to pass. Then it reassigns the PR and reports. It works in any repo: it detects Graphite or plain git and gets the GitHub login at runtime |
 | **outward-writing** | the deliverable is prose another person will read: a design doc, proposal, wiki page, Slack message, PR body or reply, review reply, ticket, email | You collect every fact with a source, write the draft in ASD-STE100 Simplified Technical English, fact-check it sentence by sentence, and run `check.py`. You publish nothing until the user sees the draft. It needs no external CLI |
 | **obsidian-project** | "start a project in my vault", "set up project docs in Obsidian" | Creates one folder in an Obsidian vault with five linked notes: the overview, PRD, architecture, research, and tasks. It adds the project to the vault's index. It fills a section only from what you said or what it read, and the other sections keep a hidden prompt. A layout in the vault's own CLAUDE.md wins over the templates |
+| **interview** | "grill me", "interview me", "stress-test this plan" | Interviews you in rounds until each open decision is settled. It looks up the facts itself and asks you only for decisions, each with a recommended answer. It restates the result and stops when you confirm it. It writes no plan and no code |
+| **agent-docs** | you create, change, or review a skill, a subagent, a command, or a CLAUDE.md | Gives the authoring rules for a document that an agent follows: write for the weakest executor, write the description as a trigger, keep one source for each fact. Its reference file has the Claude Code frontmatter keys, argument tokens, and limits |
+| **handoff** | you type `/team:handoff` | Writes a handoff document outside the repo, so that a new session can continue the work. It labels each claim as verified, inferred, or assumed, and it gives one exact next step |
+| **retrospective** | you type `/team:retrospective` | Reviews a session and proposes changes to the agent's environment. Each proposal quotes the moment in the session that shows the cost. A mechanical rule becomes an automated check, not a line in a rules file |
+| **tickets** | you type `/team:tickets` | Splits a plan or a spec into tickets. Each ticket is a vertical slice with acceptance criteria and the tickets that block it. It writes local files, or it publishes to the tracker that you or the project name |
 
 ## Slash Commands
 
@@ -107,6 +112,15 @@ Claude can also start a command on its own when your request matches the command
 ## Scripts
 
 `skills/outward-writing/scripts/check.py` ships with the **outward-writing** skill, which reaches it through `${CLAUDE_PLUGIN_ROOT}`. It fails a draft on em or en dashes outside code and quotes. It also fails a sentence over 25 words and a paragraph over 6 sentences. It warns on the present perfect, "-ing" verbs, possible passives, and two verbs for one action, and it reports the word count.
+
+## Credits
+
+Five skills adapt ideas from two MIT-licensed projects. The text in this repo is new. [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) has the license notices.
+
+- **interview**: the decision rounds come from `grilling` in [mattpocock/skills](https://github.com/mattpocock/skills). The restatement and the explicit confirmation come from `interview-me` in [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills).
+- **agent-docs**, **handoff**, **retrospective**, **tickets**: from `writing-for-agents`, `handoff`, `retro`, and `to-tickets` in [mattpocock/skills](https://github.com/mattpocock/skills).
+
+For Obsidian syntax, Bases, Canvas, and the Obsidian CLI, install the official [obsidianmd/obsidian-skills](https://github.com/obsidianmd/obsidian-skills) plugin. The **obsidian-project** skill uses its skills when they are present.
 
 ## Contributing
 
