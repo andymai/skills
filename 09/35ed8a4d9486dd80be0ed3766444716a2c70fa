@@ -1,0 +1,19 @@
+skills/handoff/SKILL.md
+  s_1d9a0e6a4c0242::t_2fcb0bffc380d6 81-84
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0935ed8a4d9486dd80be0ed3766444716a2c70fa",
+  "prompts": {},
+  "sessions": {
+    "s_1d9a0e6a4c0242": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4ceacb9d-a91a-4811-a529-9ef87bc9946b",
+        "model": "claude-fable-5-2"
+      },
+      "human_author": "Andy Aragon <hi@andymai.com>"
+    }
+  }
+}
