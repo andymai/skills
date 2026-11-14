@@ -2,7 +2,7 @@
   "name": "team",
   "displayName": "Claude Agent Team",
   "description": "Subagents, slash commands, and workflow skills for Claude Code: an engineer/reviewer/debugger team plus commands for commits, branches, worktrees, and PR shepherding.",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "author": {
     "name": "Andy Aragon"
   },
