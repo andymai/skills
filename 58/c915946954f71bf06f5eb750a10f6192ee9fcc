@@ -1,0 +1,19 @@
+skills/tickets/SKILL.md
+  s_1d9a0e6a4c0242::t_ad217ea7fec805 123-125
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "58c915946954f71bf06f5eb750a10f6192ee9fcc",
+  "prompts": {},
+  "sessions": {
+    "s_1d9a0e6a4c0242": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4ceacb9d-a91a-4811-a529-9ef87bc9946b",
+        "model": "claude-fable-5-2"
+      },
+      "human_author": "Andy Aragon <hi@andymai.com>"
+    }
+  }
+}
