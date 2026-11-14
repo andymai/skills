@@ -1,12 +1,13 @@
 ---
-description: Create a branch following <type>/<kebab-description> naming
+description: Create a branch named type/kebab-description, where the type matches the commit type
+argument-hint: "[--type=TYPE] [--from=<base>] [--issue=N] <description>"
 ---
 
 Create a new git branch following the `<type>/<kebab-case-description>` convention, where `<type>` matches the conventional-commit type the work will produce.
 
 ## Process
 
-Parse from: {{RAW_PROMPT}} — supports `--type=TYPE`, `--from=<base>` (default: `main`), `--issue=N` (embed issue number as a leading segment), `<description>` (free text; will be kebab-cased).
+Parse from: $ARGUMENTS. Supports `--type=TYPE`, `--from=<base>` (default: `main`), `--issue=N` (embed issue number as a leading segment), `<description>` (free text; will be kebab-cased).
 
 ### 1. Determine type
 

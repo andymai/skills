@@ -1,12 +1,13 @@
 ---
 description: Create a conventional commit from working tree changes
+argument-hint: "[--type=TYPE] [--scope=SCOPE] [--breaking] [--dry-run]"
 ---
 
 Stage and commit working tree changes as a Conventional Commit.
 
 ## Process
 
-Parse from: {{RAW_PROMPT}} — supports `--type=TYPE`, `--scope=SCOPE`, `--breaking`, `--dry-run`.
+Parse from: $ARGUMENTS. Supports `--type=TYPE`, `--scope=SCOPE`, `--breaking`, `--dry-run`.
 
 Run `git status` and `git diff` (and `git diff --cached` for already-staged work) in parallel. Inspect what changed and classify each logical change.
 

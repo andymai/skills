@@ -7,7 +7,7 @@ description: >
   in ASD-STE100 Simplified Technical English, fact-check it sentence by sentence, and
   run the checker, then show the draft before anything is published. Not for code,
   tests, prompt files, commit messages, or replies to the user in the session.
-allowed-tools: [Read, Write, Bash, Grep, Glob]
+allowed-tools: [Read, Write, Grep, Glob, "Bash(python3 -I ${CLAUDE_PLUGIN_ROOT}/skills/outward-writing/scripts/check.py *)"]
 ---
 
 # Outward writing

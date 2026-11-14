@@ -1,12 +1,13 @@
 ---
 description: Run the project's local quality gate (fmt + lint + types + tests)
+argument-hint: "[--fast] [--scope=<path>] [--fix]"
 ---
 
 Run the project's local quality gate — the same checks pre-commit/pre-push hooks (and CI) would run. Auto-detect what to invoke; don't hardcode a tool.
 
 ## Process
 
-Parse from: {{RAW_PROMPT}} — supports `--fast` (skip tests, fmt+lint+types only), `--scope=<path>` (limit to a subtree), `--fix` (auto-apply formatters/linters that support it).
+Parse from: $ARGUMENTS. Supports `--fast` (skip tests, fmt+lint+types only), `--scope=<path>` (limit to a subtree), `--fix` (auto-apply formatters/linters that support it).
 
 ### 1. Detect the gate
 
@@ -30,7 +31,7 @@ State which gate you detected and why before running.
 
 ### 2. Run in tiers (when possible)
 
-Mirror your pinned repos' hook structure:
+Run the checks in two tiers:
 
 - **Tier 1 (parallel)**: format check + lint + type check. These don't share state, run them concurrently if the gate detection allows it.
 - **Tier 2 (sequential)**: tests. Run after Tier 1 passes — failing fmt/lint is cheaper to fix first.

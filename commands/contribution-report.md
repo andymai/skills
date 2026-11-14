@@ -1,12 +1,14 @@
 ---
 description: GitHub contribution summaries for performance reviews
+argument-hint: "[period] [--repo=org/repo] [--username=USER] [--local-only] [--force]"
+disable-model-invocation: true
 ---
 
 Generate a contribution summary from GitHub PR data for performance reviews.
 
 ## Process
 
-Parse from: {{RAW_PROMPT}} — accepts natural time periods (current month default, or "Q4 2024", "past 6 months", "since October", "H1 2025", etc.). Supports `--repo=org/repo`, `--username=USER`, `--local-only`, `--force`.
+Parse from: $ARGUMENTS. Accepts natural time periods (current month default, or "Q4 2024", "past 6 months", "since October", "H1 2025", etc.). Supports `--repo=org/repo`, `--username=USER`, `--local-only`, `--force`.
 
 Auto-detect repo from `git remote get-url origin` and username from `git config user.github` if not provided.
 

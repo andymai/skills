@@ -1,5 +1,6 @@
 ---
 description: Audit or bootstrap the project's CLAUDE.md against observed conventions
+argument-hint: "[--apply] [--bootstrap] [--file=CLAUDE.md|AGENTS.md] [--scope=<area>]"
 ---
 
 Audit the project's `CLAUDE.md` (or `AGENTS.md`) against the actual codebase, then propose or apply updates.
@@ -8,7 +9,7 @@ CLAUDE.md is load-bearing for every Claude Code session in a repo. A good one le
 
 ## Process
 
-Parse from: {{RAW_PROMPT}} — supports `--apply` (write changes; default is propose-only), `--bootstrap` (no CLAUDE.md exists; create one from scratch), `--file=CLAUDE.md|AGENTS.md` (target a specific file), `--scope=<area>` (focus the audit on one section, e.g. `--scope=gotchas`).
+Parse from: $ARGUMENTS. Supports `--apply` (write changes; default is propose-only), `--bootstrap` (no CLAUDE.md exists; create one from scratch), `--file=CLAUDE.md|AGENTS.md` (target a specific file), `--scope=<area>` (focus the audit on one section, e.g. `--scope=gotchas`).
 
 1. **Discover the codebase shape.** Derive every section from evidence, never from imagination:
    - **Stack**: read `package.json` / `Cargo.toml` / `pyproject.toml` for dependencies and versions. List the actual stack, not aspirational tooling.

@@ -1,12 +1,13 @@
 ---
 description: Set up a git worktree under .worktrees/ for parallel branch work
+argument-hint: "<branch-name> [--base=<base-branch>] [--from=<existing-branch>]"
 ---
 
 Create a git worktree under `.worktrees/<branch>` so the user can work on a feature branch in parallel without disrupting the current working tree.
 
 ## Process
 
-Parse from: {{RAW_PROMPT}} — supports `<branch-name>` (required), `--base=<base-branch>` (default: `main`), `--from=<existing-branch>` (check out existing instead of creating).
+Parse from: $ARGUMENTS. Supports `<branch-name>` (required), `--base=<base-branch>` (default: `main`), `--from=<existing-branch>` (check out existing instead of creating).
 
 ### 1. Sanity checks
 
