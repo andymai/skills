@@ -1,0 +1,59 @@
+skills/retrospective/SKILL.md
+  s_1d9a0e6a4c0242::t_25812f2e57831a 1-12,14-76,79,87-92
+  s_1d9a0e6a4c0242::t_27c181bcef4a59 13,77-78,80-86,93-94
+evals/interview-fires-on-grill-me/graders/skill-fired.md
+  s_1d9a0e6a4c0242::t_25812f2e57831a 1-5
+README.md
+  s_1d9a0e6a4c0242::t_353e99db6ab3c8 91-95,116-123
+  s_1d9a0e6a4c0242::t_a98328fe91487b 124
+skills/agent-docs/SKILL.md
+  s_1d9a0e6a4c0242::t_25812f2e57831a 1-160
+skills/tickets/SKILL.md
+  s_1d9a0e6a4c0242::t_27c181bcef4a59 125-127
+  s_1d9a0e6a4c0242::t_25812f2e57831a 1-124,128-146
+evals/interview-fires-on-grill-me/prompt.md
+  s_1d9a0e6a4c0242::t_25812f2e57831a 1,3-8
+  s_1d9a0e6a4c0242::t_63c801c4c69721 2
+evals/interview-stays-quiet-on-clear-plan-request/graders/not-fired.md
+  s_1d9a0e6a4c0242::t_25812f2e57831a 1-8
+skills/agent-docs/reference/claude-code.md
+  s_1d9a0e6a4c0242::t_27c181bcef4a59 1-140
+skills/interview/SKILL.md
+  s_1d9a0e6a4c0242::t_25812f2e57831a 1-150
+evals/agent-docs-fires-on-new-skill/graders/skill-fired.md
+  s_1d9a0e6a4c0242::t_25812f2e57831a 1-5
+evals/agent-docs-fires-on-new-skill/prompt.md
+  s_1d9a0e6a4c0242::t_63c801c4c69721 2
+  s_1d9a0e6a4c0242::t_25812f2e57831a 1,3-8
+evals/interview-stays-quiet-on-clear-plan-request/prompt.md
+  s_1d9a0e6a4c0242::t_25812f2e57831a 1-8
+THIRD-PARTY-NOTICES.md
+  s_1d9a0e6a4c0242::t_25812f2e57831a 8-9,11-12
+  s_1d9a0e6a4c0242::t_6b5e5926670093 1-7,10,13-64
+.claude-plugin/plugin.json
+  s_1d9a0e6a4c0242::t_353e99db6ab3c8 5
+evals/agent-docs-stays-quiet-on-readme/prompt.md
+  s_1d9a0e6a4c0242::t_25812f2e57831a 1-8
+AGENTS.md
+  s_1d9a0e6a4c0242::t_353e99db6ab3c8 28,95
+skills/handoff/SKILL.md
+  s_1d9a0e6a4c0242::t_10a12134829929 1-92
+evals/agent-docs-stays-quiet-on-readme/graders/not-fired.md
+  s_1d9a0e6a4c0242::t_25812f2e57831a 1-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "677c3a427d9879b848f2604f6603f4355f9f34f6",
+  "prompts": {},
+  "sessions": {
+    "s_1d9a0e6a4c0242": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4ceacb9d-a91a-4811-a529-9ef87bc9946b",
+        "model": "claude-fable-5-2"
+      },
+      "human_author": "Andy Aragon <hi@andymai.com>"
+    }
+  }
+}
