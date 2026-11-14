@@ -152,6 +152,19 @@ class LintTest(unittest.TestCase):
         edit(self.root, "commands/run.md", '"[--fast] <target>"', "[--fast] [--slow]")
         self.assert_fails("is not one flow list")
 
+    def test_empty_entry_in_flow_list(self):
+        edit(self.root, "skills/do-work/SKILL.md", 'allowed-tools: [Read, "Bash(gh *)"]', "allowed-tools: [Read,,Grep]")
+        self.assert_fails("empty entry in a flow list")
+
+    def test_trailing_comma_in_flow_list(self):
+        edit(self.root, "skills/do-work/SKILL.md", 'allowed-tools: [Read, "Bash(gh *)"]', "allowed-tools: [Read, Grep,]")
+        self.assert_fails("empty entry in a flow list")
+
+    def test_empty_flow_list_is_allowed(self):
+        edit(self.root, "skills/do-work/SKILL.md", 'allowed-tools: [Read, "Bash(gh *)"]', "allowed-tools: []")
+        code, out = run_lint(self.root)
+        self.assertEqual(code, 0, out)
+
     def test_unknown_frontmatter_key(self):
         edit(self.root, "commands/run.md", "description: Run the thing", "description: Run the thing\nargs-hint: x")
         self.assert_fails("frontmatter key 'args-hint' is not a known key")

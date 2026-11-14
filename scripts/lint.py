@@ -85,7 +85,12 @@ def _flow_list(raw, lineno):
         raise FrontmatterError(
             f"line {lineno}: value starts with '[' but is not one flow list; put the value in quotes"
         )
-    return [_scalar(item, lineno) for item in inner[1:-1].split(",") if item.strip()]
+    items = inner[1:-1].split(",")
+    if len(items) == 1 and not items[0].strip():
+        return []
+    if not all(item.strip() for item in items):
+        raise FrontmatterError(f"line {lineno}: empty entry in a flow list")
+    return [_scalar(item, lineno) for item in items]
 
 
 def parse_frontmatter(text):
