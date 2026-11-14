@@ -1,0 +1,127 @@
+evals/outward-writing-stays-quiet-on-commit-message/graders/not-fired.md
+  s_1d9a0e6a4c0242::t_ef413b64892873 1-8
+evals/outward-writing-fires-on-pr-reply/graders/skill-fired.md
+  s_1d9a0e6a4c0242::t_ef413b64892873 1-5
+.github/workflows/ci.yml
+  s_1d9a0e6a4c0242::t_8af357dd6aa06b 1-46
+evals/shepherd-pr-stays-quiet-on-pr-description/graders/not-fired.md
+  s_1d9a0e6a4c0242::t_ef413b64892873 1-8
+evals/shepherd-pr-fires-on-drive-to-green/graders/skill-fired.md
+  s_1d9a0e6a4c0242::t_ef413b64892873 1-5
+commands/check.md
+  s_1d9a0e6a4c0242::t_96c296b6242954 3,34
+  s_1d9a0e6a4c0242::t_8bc86e7cdd1f6c 10
+commands/upgrade-dep.md
+  s_1d9a0e6a4c0242::t_63c801c4c69721 10,12-16,21
+  s_1d9a0e6a4c0242::t_96c296b6242954 3
+  s_1d9a0e6a4c0242::t_3249c676b4c395 6,17-20,22-34,38-45,47
+scripts/tests/test_lint.py
+  s_1d9a0e6a4c0242::t_27c181bcef4a59 124-133,292-293
+  s_1d9a0e6a4c0242::t_261a213f6115d2 1-36,38-123,134-159,349,371-475,506-514
+  s_1d9a0e6a4c0242::t_05053fcbe37673 37,218-230
+  s_1d9a0e6a4c0242::t_c6d63be6428424 160-216,231-291,294-348,350-370,476-505
+  s_1d9a0e6a4c0242::t_78123082f5c38d 217
+agents/researcher.md
+  s_1d9a0e6a4c0242::t_8f2da9fd3075c4 35
+evals/outward-writing-fires-on-slack-message/prompt.md
+  s_1d9a0e6a4c0242::t_ef413b64892873 1-8
+evals/obsidian-project-stays-quiet-on-note-edit/graders/not-fired.md
+  s_1d9a0e6a4c0242::t_32fe925b47e593 1-8
+skills/obsidian-project/SKILL.md
+  s_1d9a0e6a4c0242::t_05053fcbe37673 9
+  s_1d9a0e6a4c0242::t_8f2da9fd3075c4 138-147,158-161
+commands/audit-claudemd.md
+  s_1d9a0e6a4c0242::t_96c296b6242954 3
+  s_1d9a0e6a4c0242::t_8bc86e7cdd1f6c 12
+AGENTS.md
+  s_1d9a0e6a4c0242::t_27c181bcef4a59 78
+  s_1d9a0e6a4c0242::t_6b5e5926670093 139
+  s_1d9a0e6a4c0242::t_a8d3ec8facd132 101-102
+  s_1d9a0e6a4c0242::t_40ce2218d9c5a3 35-38,106-109
+  s_1d9a0e6a4c0242::t_63c801c4c69721 90,154
+  s_1d9a0e6a4c0242::t_1926dfa5dea9d9 26
+  s_1d9a0e6a4c0242::t_37ed96b62c8e21 103-105
+  s_1d9a0e6a4c0242::t_05053fcbe37673 158,166
+  s_1d9a0e6a4c0242::t_838ef9c5bda89a 54,69-74,79,84-86,91-100,129,134,144,159-165,167-174
+evals/outward-writing-fires-on-pr-reply/prompt.md
+  s_1d9a0e6a4c0242::t_ef413b64892873 1-8
+agents/debugger.md
+  s_1d9a0e6a4c0242::t_96c296b6242954 6
+  s_1d9a0e6a4c0242::t_8f2da9fd3075c4 40
+  s_1d9a0e6a4c0242::t_63c801c4c69721 39
+evals/outward-writing-fires-on-slack-message/graders/skill-fired.md
+  s_1d9a0e6a4c0242::t_ef413b64892873 1-5
+evals/obsidian-project-stays-quiet-on-note-edit/prompt.md
+  s_1d9a0e6a4c0242::t_32fe925b47e593 1-8
+evals/shepherd-pr-fires-on-drive-to-green/prompt.md
+  s_1d9a0e6a4c0242::t_ef413b64892873 1-8
+evals/outward-writing-stays-quiet-on-commit-message/prompt.md
+  s_1d9a0e6a4c0242::t_ef413b64892873 1-8
+evals/obsidian-project-fires-on-new-project/graders/skill-fired.md
+  s_1d9a0e6a4c0242::t_ef413b64892873 1-5
+commands/worktree.md
+  s_1d9a0e6a4c0242::t_96c296b6242954 3
+  s_1d9a0e6a4c0242::t_8bc86e7cdd1f6c 10
+evals/obsidian-project-fires-on-new-project/prompt.md
+  s_1d9a0e6a4c0242::t_ef413b64892873 1-8
+scripts/lint.py
+  s_1d9a0e6a4c0242::t_936a06cd4acf34 1-23,25-26,28-34,38-44,46-60,68-71,74-84,87-109,111-118,120,122-158,160-167,191-192,196,198-203,205-210,212,226,230,233-246,248-252,256,258-259,264-270,272-282,284,287-304,306,308-309,311-312,314,317-318,322-325,327-328,331-343,346,348-352,356-358,360-361,363-370,373-375,377-378,380-381,388,390-408,413-415,418,436-461
+  s_1d9a0e6a4c0242::t_51373d01cc492f 119
+  s_1d9a0e6a4c0242::t_8a7613d6140cb5 45,62-67,168,176-186,188-190,193-195,197,225,232,254-255,257,260-263,271,286,310,313,315-316,319-321,326,329-330,344-345,353-355,371-372,382-386,389,409-412,416-417,419-435
+  s_1d9a0e6a4c0242::t_05053fcbe37673 213-224,283,305
+  s_1d9a0e6a4c0242::t_02104fafc642eb 61,72-73,85-86,110,121,187,204,211,227-229,231,247,253,285,307,359,362,379
+  s_1d9a0e6a4c0242::t_c0f1e1ccbfe809 347
+  s_1d9a0e6a4c0242::t_e974ff1fadc4e6 376
+  s_1d9a0e6a4c0242::t_42eea4fca54c15 387
+  s_1d9a0e6a4c0242::t_27c181bcef4a59 24,27,35-37,159,169-175
+evals/shepherd-pr-stays-quiet-on-pr-description/prompt.md
+  s_1d9a0e6a4c0242::t_ef413b64892873 1-8
+README.md
+  s_1d9a0e6a4c0242::t_b69f9ef55668ef 105-106,117-133
+.gitignore
+  s_1d9a0e6a4c0242::t_8af357dd6aa06b 3
+  s_1d9a0e6a4c0242::t_6f28393b9fdf54 4
+agents/gap-finder.md
+  s_1d9a0e6a4c0242::t_8f2da9fd3075c4 28-29
+  s_1d9a0e6a4c0242::t_96c296b6242954 6
+skills/shepherd-pr/SKILL.md
+  s_1d9a0e6a4c0242::t_c6d63be6428424 237
+  s_1d9a0e6a4c0242::t_05053fcbe37673 10
+  s_1d9a0e6a4c0242::t_15b2bd8400b6b8 29-31
+  s_1d9a0e6a4c0242::t_8bc86e7cdd1f6c 104
+  s_1d9a0e6a4c0242::t_8f2da9fd3075c4 20-28,32-44,165-166,170-174,185-186,231-232
+  s_1d9a0e6a4c0242::t_63c801c4c69721 94-98,191-192
+  s_1d9a0e6a4c0242::t_27c181bcef4a59 193-195
+commands/pr-description.md
+  s_1d9a0e6a4c0242::t_96c296b6242954 3,81
+  s_1d9a0e6a4c0242::t_8bc86e7cdd1f6c 10
+skills/outward-writing/SKILL.md
+  s_1d9a0e6a4c0242::t_05053fcbe37673 10
+commands/contribution-report.md
+  s_1d9a0e6a4c0242::t_8bc86e7cdd1f6c 11
+  s_1d9a0e6a4c0242::t_96c296b6242954 3-4
+commands/branch.md
+  s_1d9a0e6a4c0242::t_96c296b6242954 2-3
+  s_1d9a0e6a4c0242::t_8bc86e7cdd1f6c 10
+commands/commit.md
+  s_1d9a0e6a4c0242::t_8bc86e7cdd1f6c 10
+  s_1d9a0e6a4c0242::t_96c296b6242954 3
+.claude-plugin/plugin.json
+  s_1d9a0e6a4c0242::t_8af357dd6aa06b 5,8-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0a2e247417fdb18673388d8a7cb71f942de6593e",
+  "prompts": {},
+  "sessions": {
+    "s_1d9a0e6a4c0242": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4ceacb9d-a91a-4811-a529-9ef87bc9946b",
+        "model": "claude-fable-5-2"
+      },
+      "human_author": "Andy Aragon <hi@andymai.com>"
+    }
+  }
+}
