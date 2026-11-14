@@ -78,7 +78,10 @@ of where the reader can get it, such as "the token in `.env`, key `STRIPE_KEY`".
 
 Save the document in the temporary folder of the operating system, not in the repo, so
 that nobody commits it. Use `$TMPDIR` if it is set, and `/tmp` if it is not. On Windows,
-use `%TEMP%`. Name the file `handoff-<short-task-name>-<YYYY-MM-DD>.md`.
+use `%TEMP%`. Name the file `handoff-<short-task-name>-<YYYY-MM-DD>-<HHMM>.md`, with the
+current time. Never overwrite a file: if that name exists, put `-2` before `.md`, then
+`-3`, until the name is free. A second session with the same task must not replace the
+notes of the first.
 
 ## 5. Check, then report
 
