@@ -102,6 +102,8 @@ These [Agent Skills](https://code.claude.com/docs/en/skills) are not specific to
 | `/team:upgrade-dep`         | Upgrade a dependency and fix breaking changes                 |
 | `/team:worktree`            | Set up a git worktree under `.worktrees/` for parallel work   |
 
+Claude can also start a command on its own when your request matches the command's description. The exception is `/team:contribution-report`, which runs only when you type it, because it creates a GitHub repo and uploads to it.
+
 ## Scripts
 
 `skills/outward-writing/scripts/check.py` ships with the **outward-writing** skill, which reaches it through `${CLAUDE_PLUGIN_ROOT}`. It fails a draft on em or en dashes outside code and quotes. It also fails a sentence over 25 words and a paragraph over 6 sentences. It warns on the present perfect, "-ing" verbs, possible passives, and two verbs for one action, and it reports the word count.
@@ -112,3 +114,20 @@ To add or upgrade an agent, read [AGENTS.md](AGENTS.md), the playbook for agent 
 
 - The **generalization rule**: agents run in every repo you touch, so each rule must be portable.
 - The **weakest-executor rule**: prompts must carry the discipline (evidence rules, hard gates, self-checks), so smaller models and junior engineers also succeed with them.
+
+Run these gates before you open a PR. CI runs the same four:
+
+```
+python3 -I scripts/lint.py --base origin/main
+python3 -I scripts/tests/test_lint.py
+skills/outward-writing/tests/run.sh
+claude plugin validate . --strict
+```
+
+The lint checks the frontmatter, the names, the cross-references, and the README tables. It also fails when a shipped file changes and the version in `.claude-plugin/plugin.json` stays the same.
+
+The cases under `evals/` test that each skill starts on a request that it owns and stays quiet on a nearby request. Each run is a real model call on your account, so CI does not run them. Run them after you change a skill's `description`:
+
+```
+claude plugin eval . --model sonnet --no-publish
+```

@@ -6,7 +6,7 @@ description: >
   the vault's index. Use when the user asks to start, set up, or scaffold a project,
   a project folder, or project docs in Obsidian or in their vault. Also holds the
   conventions for links, tags, and tasks when you update those notes later.
-allowed-tools: [Read, Write, Edit, Bash, Grep, Glob]
+allowed-tools: [Read, Write, Edit, Grep, Glob, "Bash(find *)", "Bash(ls *)", "Bash(grep *)", "Bash(printf *)", "Bash(echo *)"]
 ---
 
 # Obsidian project
@@ -135,6 +135,16 @@ These rules apply when you write the notes and when you update them later.
 
 - **Links**: use wikilinks with the project prefix, such as `[[{name}-prd]]`. The prefix
   keeps file names unique, so a link never opens another project's note.
+- **Link syntax**: these three rules prevent links that look correct and do not work.
+  - A wikilink finds its note by file name, never by an `aliases` property. To show
+    different text, write `[[{name}-prd|PRD]]`.
+  - In frontmatter, put a wikilink in quotes, such as `related: "[[{name}-prd]]"`.
+    Without the quotes, YAML reads it as a nested list.
+  - In a table, put a backslash before the pipe of an alias: `[[{name}-prd\|PRD]]`.
+    Without it, the pipe starts a new table cell.
+- **Other Obsidian syntax**: if the skills of the `obsidian` plugin are installed
+  (`obsidian:obsidian-markdown`, `obsidian:obsidian-cli`), follow them for callouts,
+  embeds, properties, and vault commands. This skill does not repeat them.
 - **Tags**: use frontmatter arrays only, such as `tags: [prd, draft]`.
   - Status: `active`, `draft`, `blocked`, `archived`.
   - Type: `project`, `prd`, `architecture`, `research`, `task`, `knowledge`.
@@ -145,5 +155,9 @@ These rules apply when you write the notes and when you update them later.
   old entries fill the context with history.
 - **More notes**: when a topic outgrows its section, give it its own note with the same
   prefix, such as `{name}-roadmap.md`. Link the new note from the overview's Quick Links.
+- **Rename or move**: rename or move a note with Obsidian, so that Obsidian updates the
+  links to it. Use the app, or `obsidian rename` and `obsidian move` if the Obsidian CLI
+  is available. If you must use the file system, search the vault for `[[<old name>` in
+  the same step, and fix each link that you find.
 - **Status changes**: when the project becomes active, blocked, or archived, change the
   status tag in each note and update the project's line in the index.
