@@ -33,14 +33,17 @@ These rules apply in every step.
   user's instructions. If they forbid replies on a PR, or require that the user sees a
   reply before you post it, do not post and do not resolve threads. Fix the code, leave
   each thread open, and list each reply that you did not post in the Step 3 summary.
-- **Circuit breaker.** Count each pass through Step 1. Stop the loop and report when one
-  of these conditions is true:
+- **Circuit breaker.** Count each pass through Step 1. Also count each CI repair in 1d
+  (a fix, a push, and a watch) as one pass, because 1d can repeat inside one pass. Stop
+  the loop and report when one of these conditions is true:
   1. The same check fails with the same error after two fix attempts.
   2. A reviewer raises the same finding again after you fixed it two times.
   3. Five passes are complete and the exit condition (1e) does not hold.
 
-  The report must give what you completed, what blocks you, what you tried, and what you
-  need from the user. Do not start a sixth pass.
+  Before you report, add the user back as assignee if you removed the user in Step 0.
+  A PR that stops early must not stay without its assignee. The report must give what
+  you completed, what blocks you, what you tried, and what you need from the user. Do
+  not start a sixth pass.
 
 ## Step 0 — Detect the environment (once)
 
