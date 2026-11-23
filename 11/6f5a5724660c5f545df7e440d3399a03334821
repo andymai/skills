@@ -1,0 +1,28 @@
+commands/commit.md
+  s_25db227b25e69a::t_4ff6fefea19812 3-6,11-23
+  s_25db227b25e69a::t_1ce288fe5b1867 26,30-34,47
+scripts/lint.py
+  s_25db227b25e69a::t_4ff6fefea19812 33
+scripts/tests/test_lint.py
+  s_25db227b25e69a::t_4ff6fefea19812 134-139
+commands/upgrade-dep.md
+  s_25db227b25e69a::t_4ff6fefea19812 4
+AGENTS.md
+  s_25db227b25e69a::t_4ff6fefea19812 79-80
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "116f5a5724660c5f545df7e440d3399a03334821",
+  "prompts": {},
+  "sessions": {
+    "s_25db227b25e69a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a14173c0-1f6f-4f1c-89c2-16ba0ab74a75",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Andy Aragon <hi@andymai.com>"
+    }
+  }
+}
