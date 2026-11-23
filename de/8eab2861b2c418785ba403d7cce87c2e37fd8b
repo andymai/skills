@@ -1,0 +1,21 @@
+skills/rounds/SKILL.md
+  s_25db227b25e69a::t_8a499f9f988201 102,125,262-273,295-297,330-332
+skills/rounds/scripts/gather.sh
+  s_25db227b25e69a::t_8a499f9f988201 113-114,162-164,179-183
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "de8eab2861b2c418785ba403d7cce87c2e37fd8b",
+  "prompts": {},
+  "sessions": {
+    "s_25db227b25e69a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a14173c0-1f6f-4f1c-89c2-16ba0ab74a75",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Andy Aragon <hi@andymai.com>"
+    }
+  }
+}
