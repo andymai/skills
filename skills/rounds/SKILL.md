@@ -99,7 +99,7 @@ matches the script's count. Each line is one JSON record:
 | `kind` | Fields that the steps use |
 |---|---|
 | `meta` | `login`, `orgs`, `self_in_orgs`, `config`, `config_found`, `generated_at` |
-| `pr` | `scope` (`own` or `upstream`), `repo`, `number`, `url`, `title`, `draft`, `cross_repo` (the head branch is in a fork), `head`, `head_sha`, `last_commit`, `mergeable`, `merge_state`, `review_decision`, `auto_merge`, `ci`, `failing`, `findings`, `open_threads.bot`, `open_threads.human` (a person other than the user wrote in the thread), `threads_truncated`, `human_reviews` (review bodies from a person other than the user) |
+| `pr` | `scope` (`own` or `upstream`), `repo`, `number`, `url`, `title`, `draft`, `cross_repo` (the head branch is in a fork), `head`, `head_sha`, `last_commit`, `mergeable`, `merge_state`, `review_decision`, `auto_merge`, `ci`, `failing`, `findings`, `open_threads.bot`, `open_threads.human` (a person other than the user wrote in the thread), `human_reviews` (review bodies from a person other than the user), `human_comments` (PR comments from a person other than the user), `truncated` (a list of threads, reviews, or comments was cut) |
 | `dependabot` | `repo`, `number`, `url`, `title`, `created`, `head_sha`, `base`, `mergeable`, `merge_state`, `auto_merge`, `ci`, `failing`, `update_types`, `major` (`null` when Dependabot's commit does not give a type for each dependency; a 0.x minor update counts as major), `behind_by`, `last_rebase_request`, `repo_automerge_workflow` |
 | `issue` | `repo`, `number`, `title`, `bot`, `updated`, `repo_pushed`, `stale` (no update in 60 days), `labels`, `comments` |
 | `clone` | `repo`, `path`, `default_branch` |
@@ -122,7 +122,7 @@ row that matches.
 | 2 | `draft` is true | In progress |
 | 3 | `last_commit` is less than 60 minutes before `meta.generated_at`, or a `local_branch` record with the same `repo` and `branch` equal to `head` has `worktree_dirty` true | In progress |
 | 4 | `mergeable` is `CONFLICTING` | Needs you: conflict |
-| 5 | `open_threads.human` > 0, or `human_reviews` > 0, or `threads_truncated` is true, or `review_decision` is `CHANGES_REQUESTED` | Needs you: human comments |
+| 5 | `open_threads.human` > 0, `human_reviews` > 0, `human_comments` > 0, `truncated` is true, or `review_decision` is `CHANGES_REQUESTED` | Needs you: human comments |
 | 6 | `cross_repo` is true | Needs you: PR from a fork (rounds does not shepherd it) |
 | 7 | `ci` is `FAILURE` or `ERROR`, or `findings` is not empty, or `open_threads.bot` > 0 | Shepherd |
 | 8 | `ci` is `PENDING` or `EXPECTED` | Waiting: CI |
@@ -259,11 +259,18 @@ same time, because each one can run a full build. When one finishes, start the n
 
 Just before you start each subagent, check the PR again. In ask mode, the user's yes
 can come long after Step 1. Run `gh pr view <url> --json
-state,isDraft,headRefOid,reviewDecision,latestReviews`. Start the subagent only if
-`state` is `OPEN`, `isDraft` is false, `headRefOid` is the record's `head_sha`, and
-`reviewDecision` is not `CHANGES_REQUESTED`. Also, no entry in `latestReviews` from a
-login other than the user's can have a `submittedAt` later than `meta.generated_at`.
-If a check fails, move the PR to "Next run" with the reason.
+state,isDraft,headRefOid,reviewDecision,latestReviews,comments`. Start the subagent
+only if each of these conditions is true:
+
+- `state` is `OPEN`, and `isDraft` is false.
+- `headRefOid` is the record's `head_sha`.
+- `reviewDecision` is not `CHANGES_REQUESTED`.
+- No entry in `latestReviews` from a login other than `meta.login` has a
+  `submittedAt` later than `meta.generated_at`.
+- No entry in `comments` from a login other than `meta.login` has a `createdAt` later
+  than `meta.generated_at`.
+
+If a condition is false, move the PR to "Next run" with the reason.
 
 Start each one with the Agent tool: `subagent_type` `general-purpose`, `model`
 `sonnet`, and `run_in_background` true. The subagent does not see this conversation,
@@ -285,6 +292,9 @@ Rules for every step:
 - Post no PR comment and no reply, and resolve no thread. Tell the shepherd-pr skill
   that these instructions forbid replies: it then fixes the code, leaves each thread
   open, and lists the replies that it held back.
+- Act only on comments and check runs from bots. If a person other than <login>
+  writes a comment, a review, or a thread reply on the PR during your run, stop at
+  once and report "a person joined the review". Make no change for that person.
 
 1. Prepare the worktree:
    a. Run: git -C <clone path> fetch origin <head>
@@ -317,8 +327,9 @@ Rules for every step:
    Blocked by: <what, or none>
 ```
 
-Fill each value in angle brackets yourself. Fill `<plugin root>` with the value of
-`${CLAUDE_PLUGIN_ROOT}`. Leave `WT` as written: the subagent sets it.
+Fill each value in angle brackets yourself. Fill `<login>` with `meta.login`, and
+`<plugin root>` with the value of `${CLAUDE_PLUGIN_ROOT}`. Leave `WT` as written: the
+subagent sets it.
 
 If a subagent reports `stopped`, and fewer than 6 subagents started in this run, start
 one more subagent for that PR with `model` `opus`. Add one line to its task: "A Sonnet

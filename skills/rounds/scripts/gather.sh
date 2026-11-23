@@ -110,7 +110,8 @@ def failing: [rollup.contexts.nodes[]? | select(
   (.__typename == "CheckRun" and ((.conclusion // "") | test("^(FAILURE|TIMED_OUT|STARTUP_FAILURE|ACTION_REQUIRED|CANCELLED)$")))
   or (.__typename == "StatusContext" and ((.state // "") | test("^(FAILURE|ERROR)$")))) | (.name // .context)];
 def person: (.__typename == "User") and (.login != me);
-def human_thread: any(.comments.nodes[]; .author != null and (.author | person));
+def human_thread: (.comments.totalCount > (.comments.nodes | length))
+  or any(.comments.nodes[]; .author != null and (.author | person));
 def findings: [rollup.contexts.nodes[]? | select(.__typename == "CheckRun" and .conclusion == "NEUTRAL"
   and ((.title // "") | test("(^|[^0-9])[1-9][0-9]*([^0-9]|$)"))) | {name, title}];
 '
@@ -158,8 +159,9 @@ search_paged() {
 Q_OWN="query(\$q: String!, \$first: Int!, \$after: String) { search(query: \$q, type: ISSUE, first: \$first, after: \$after) {
   pageInfo { hasNextPage endCursor } nodes { ... on PullRequest {
   $PR_FIELDS
-  reviewThreads(first: 100) { totalCount nodes { isResolved comments(last: 30) { nodes { author { __typename login } } } } }
-  reviews(last: 30) { nodes { author { __typename login } state body } } } } } }"
+  reviewThreads(first: 100) { totalCount nodes { isResolved comments(last: 30) { totalCount nodes { author { __typename login } } } } }
+  reviews(last: 30) { totalCount nodes { author { __typename login } state body } }
+  comments(last: 30) { totalCount nodes { author { __typename login } } } } } } }"
 # shellcheck disable=SC2016
 JQ_OWN='.data.search.nodes[] | select(.number) | .repository.owner.login as $o
 | (if any(orgs[]; . == $o) then "own"
@@ -174,9 +176,11 @@ JQ_OWN='.data.search.nodes[] | select(.number) | .repository.owner.login as $o
    cross_repo: .isCrossRepository,
    open_threads: {bot: ($open | map(select(human_thread | not)) | length),
                   human: ($open | map(select(human_thread)) | length)},
-   threads_truncated: (.reviewThreads.totalCount > (.reviewThreads.nodes | length)),
-   human_reviews: ([.reviews.nodes[] | select(.author != null and (.author | person)
-     and (.state == "COMMENTED" or .state == "CHANGES_REQUESTED") and ((.body // "") != ""))] | length)}'
+   truncated: ((.reviewThreads.totalCount > (.reviewThreads.nodes | length))
+     or (.reviews.totalCount > (.reviews.nodes | length))
+     or (.comments.totalCount > (.comments.nodes | length))),
+   human_reviews: ([.reviews.nodes[] | select(.author != null and (.author | person) and ((.body // "") != ""))] | length),
+   human_comments: ([.comments.nodes[] | select(.author != null and (.author | person))] | length)}'
 search_paged prs "$Q_OWN" "$JQ_OWN" "is:pr is:open author:$LOGIN archived:false" 20 10 >>"$OUT"
 
 # Dependabot PRs, only in repos that the user's own login owns. The update type
