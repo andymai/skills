@@ -30,7 +30,7 @@ CORE_TOOLS = {"Read", "Write", "Edit", "Bash", "Glob", "Grep", "WebSearch", "Web
 COMMAND_KEYS = {
     "description", "argument-hint", "arguments", "when_to_use",
     "disable-model-invocation", "user-invocable", "allowed-tools",
-    "disallowed-tools", "model", "effort", "context", "agent",
+    "disallowed-tools", "model", "effort", "context", "agent", "background",
 }
 SKILL_KEYS = COMMAND_KEYS | {
     "name", "paths", "hooks", "shell", "background", "license", "compatibility", "metadata",

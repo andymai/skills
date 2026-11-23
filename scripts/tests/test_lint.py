@@ -131,6 +131,12 @@ class LintTest(unittest.TestCase):
         code, out = run_lint(self.root)
         self.assertEqual(code, 0, out)
 
+    def test_command_can_run_in_a_foreground_fork(self):
+        edit(self.root, "commands/run.md", "description: Run the thing",
+             "description: Run the thing\ncontext: fork\nmodel: haiku\nbackground: false")
+        code, out = run_lint(self.root)
+        self.assertEqual(code, 0, out)
+
     def test_agent_unknown_tool(self):
         edit(self.root, "agents/helper.md", "tools: Read, Grep", "tools: Read, Grpe")
         self.assert_fails("tool 'Grpe' is not a core tool")

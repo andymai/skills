@@ -1,6 +1,7 @@
 ---
 description: Upgrade a dependency and fix breaking changes
 argument-hint: "<package[@version]> [--dry-run] [--breaking]"
+model: sonnet
 ---
 
 Upgrade one dependency and fix every breaking change that the upgrade causes.

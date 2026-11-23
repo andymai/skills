@@ -76,6 +76,8 @@ disable-model-invocation: true            # only for a user-only command, see be
 ---
 ```
 
+**`model` in a command lasts for the rest of the turn.** If Claude starts the command in the middle of a task, the rest of that task runs on that model. For a short command with fixed steps, such as `commit`, set `context: fork`, `model: haiku`, and `background: false`. The command then runs in its own subagent and returns, and the caller keeps its model. A forked command does not see the conversation and cannot ask the user a question, so its body must give a rule for each case where it would ask. Set a plain `model` only on a command that is the whole task when it runs, such as `upgrade-dep`.
+
 Claude Code replaces `$ARGUMENTS` in the body with the text that the user types after the command name. It replaces no token in double braces. The lint rejects an upper-case name in double braces, such as the `RAW_PROMPT` form, in an agent, a command, or a `SKILL.md`. Document the supported flags in the body.
 
 **Claude can start a command on its own.** Claude Code treats a command as a skill, so Claude can invoke a command when a request matches its `description`. Set `disable-model-invocation: true` when the command has an effect outside the repo that the user did not ask for by name. Then only the user can start it. Example: `contribution-report` creates a GitHub repo and uploads to it.
