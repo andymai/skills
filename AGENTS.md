@@ -141,7 +141,7 @@ The rules for `description`, `allowed-tools`, and the size of `SKILL.md` are in 
 - **Commits**: conventional commits (`feat`, `fix`, `refactor`, `chore`, `docs`, `test`, `ci`, `build`, `perf`, `style`, `revert`). Scope is optional and short.
 - **Branch naming**: `<type>/<kebab-description>` matching the commit type.
 - **One feature per PR.** Large agent rewrites that touch unrelated agents should be split.
-- **Never reply to or post PR comments.** Agents and commands must not post comments, reply to review threads, or resolve threads on a PR (`gh pr comment`, `gh api .../comments`, etc.). Address review feedback through commits and report the resolution back to the user; the user owns all PR conversation. The one exception is the `shepherd-pr` skill, which the user starts for that purpose. It replies and resolves threads by default. It holds each reply back when the project's rules or the user's instructions forbid replies or require a review first.
+- **Never reply to or post PR comments.** Agents and commands must not post comments, reply to review threads, or resolve threads on a PR (`gh pr comment`, `gh api .../comments`, etc.). Address review feedback through commits and report the resolution back to the user; the user owns all PR conversation. There are two exceptions. The first is the `shepherd-pr` skill, which the user starts for that purpose. It replies and resolves threads by default. It holds each reply back when the project's rules or the user's instructions forbid replies or require a review first. The second is the `rounds` skill, which posts the bot command `@dependabot rebase` on a Dependabot PR and no other comment.
 
 ## Quality gates
 
