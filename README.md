@@ -102,10 +102,10 @@ These [Agent Skills](https://code.claude.com/docs/en/skills) are not specific to
 | `/team:audit-claudemd`      | Audit or bootstrap the project's CLAUDE.md against observed conventions |
 | `/team:branch`              | Create a branch with `<type>/<kebab-description>` naming      |
 | `/team:check`               | Run the project's local quality gate (auto-detected)          |
-| `/team:commit`              | Create a conventional commit from working tree changes        |
+| `/team:commit`              | Create a conventional commit from working tree changes, in a Haiku subagent |
 | `/team:contribution-report` | GitHub contribution summaries for performance reviews         |
 | `/team:pr-description`      | Generate PR title and description from branch changes         |
-| `/team:upgrade-dep`         | Upgrade a dependency and fix breaking changes                 |
+| `/team:upgrade-dep`         | Upgrade a dependency and fix breaking changes, on Sonnet      |
 | `/team:worktree`            | Set up a git worktree under `.worktrees/` for parallel work   |
 
 Claude can also start a command on its own when your request matches the command's description. The exception is `/team:contribution-report`, which runs only when you type it, because it creates a GitHub repo and uploads to it.
