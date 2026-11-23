@@ -83,6 +83,11 @@ MEMBERS=$(gh api user/orgs --paginate --jq '.[].login' 2>/dev/null)
 ORGS=$(cfg_list orgs)
 CFG_FOUND=false
 if [ -f "$CFG" ]; then CFG_FOUND=true; fi
+if [ "$CFG_FOUND" = true ] && [ -z "$ORGS" ]; then
+  err "config" "no orgs in $CFG"
+  printf 'rounds: %s exists but names no orgs. Add "orgs", or remove the file.\n%s\n' "$CFG" "$OUT"
+  exit 1
+fi
 if [ -z "$ORGS" ]; then ORGS=$(printf '%s\n%s\n' "$LOGIN" "$MEMBERS"); fi
 
 ROOTS=$(cfg_list roots)
@@ -97,18 +102,20 @@ ROOTS_JSON=$(printf '%s\n' "$ROOTS" | json_arr)
 
 emit "{\"kind\":\"meta\",\"login\":$(json_str "$LOGIN"),\"config\":$(json_str "$CFG"),\"config_found\":$CFG_FOUND,\"orgs\":$ORGS_JSON,\"memberships\":$MEMBERS_JSON,\"roots\":$ROOTS_JSON,\"self_in_orgs\":$SELF_IN,\"generated_at\":$(json_str "$(date -u +%Y-%m-%dT%H:%M:%SZ)")}"
 
-JQ_DEFS="def orgs: $ORGS_JSON; def members: $MEMBERS_JSON; def self_in: $SELF_IN;"
+JQ_DEFS="def orgs: $ORGS_JSON; def members: $MEMBERS_JSON; def self_in: $SELF_IN; def me: $(json_str "$LOGIN");"
 # shellcheck disable=SC2016
 JQ_CI='
 def rollup: (.commits.nodes[0].commit.statusCheckRollup // {state: "NONE", contexts: {nodes: []}});
 def failing: [rollup.contexts.nodes[]? | select(
   (.__typename == "CheckRun" and ((.conclusion // "") | test("^(FAILURE|TIMED_OUT|STARTUP_FAILURE|ACTION_REQUIRED|CANCELLED)$")))
   or (.__typename == "StatusContext" and ((.state // "") | test("^(FAILURE|ERROR)$")))) | (.name // .context)];
+def person: (.__typename == "User") and (.login != me);
+def human_thread: any(.comments.nodes[]; .author != null and (.author | person));
 def findings: [rollup.contexts.nodes[]? | select(.__typename == "CheckRun" and .conclusion == "NEUTRAL"
   and ((.title // "") | test("(^|[^0-9])[1-9][0-9]*([^0-9]|$)"))) | {name, title}];
 '
 
-PR_FIELDS='number title url isDraft createdAt headRefName baseRefName mergeable mergeStateStatus reviewDecision
+PR_FIELDS='number title url isDraft isCrossRepository createdAt headRefName baseRefName mergeable mergeStateStatus reviewDecision
   autoMergeRequest { enabledAt }
   repository { nameWithOwner owner { login } }
   commits(last: 1) { nodes { commit { oid committedDate statusCheckRollup { state
@@ -151,7 +158,8 @@ search_paged() {
 Q_OWN="query(\$q: String!, \$first: Int!, \$after: String) { search(query: \$q, type: ISSUE, first: \$first, after: \$after) {
   pageInfo { hasNextPage endCursor } nodes { ... on PullRequest {
   $PR_FIELDS
-  reviewThreads(first: 100) { nodes { isResolved comments(first: 1) { nodes { author { __typename } } } } } } } } }"
+  reviewThreads(first: 100) { totalCount nodes { isResolved comments(last: 30) { nodes { author { __typename login } } } } }
+  reviews(last: 30) { nodes { author { __typename login } state body } } } } } }"
 # shellcheck disable=SC2016
 JQ_OWN='.data.search.nodes[] | select(.number) | .repository.owner.login as $o
 | (if any(orgs[]; . == $o) then "own"
@@ -163,8 +171,12 @@ JQ_OWN='.data.search.nodes[] | select(.number) | .repository.owner.login as $o
    head_sha: .commits.nodes[0].commit.oid, last_commit: .commits.nodes[0].commit.committedDate,
    mergeable, merge_state: .mergeStateStatus, review_decision: .reviewDecision,
    auto_merge: (.autoMergeRequest != null), ci: rollup.state, failing: failing, findings: findings,
-   open_threads: {bot: ($open | map(select(.comments.nodes[0].author.__typename != "User")) | length),
-                  human: ($open | map(select(.comments.nodes[0].author.__typename == "User")) | length)}}'
+   cross_repo: .isCrossRepository,
+   open_threads: {bot: ($open | map(select(human_thread | not)) | length),
+                  human: ($open | map(select(human_thread)) | length)},
+   threads_truncated: (.reviewThreads.totalCount > (.reviewThreads.nodes | length)),
+   human_reviews: ([.reviews.nodes[] | select(.author != null and (.author | person)
+     and (.state == "COMMENTED" or .state == "CHANGES_REQUESTED") and ((.body // "") != ""))] | length)}'
 search_paged prs "$Q_OWN" "$JQ_OWN" "is:pr is:open author:$LOGIN archived:false" 20 10 >>"$OUT"
 
 # Dependabot PRs, only in repos that the user's own login owns. The update type

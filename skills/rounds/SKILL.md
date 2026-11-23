@@ -99,7 +99,7 @@ matches the script's count. Each line is one JSON record:
 | `kind` | Fields that the steps use |
 |---|---|
 | `meta` | `login`, `orgs`, `self_in_orgs`, `config`, `config_found`, `generated_at` |
-| `pr` | `scope` (`own` or `upstream`), `repo`, `number`, `url`, `title`, `draft`, `head`, `last_commit`, `mergeable`, `merge_state`, `review_decision`, `auto_merge`, `ci`, `failing`, `findings`, `open_threads.bot`, `open_threads.human` |
+| `pr` | `scope` (`own` or `upstream`), `repo`, `number`, `url`, `title`, `draft`, `cross_repo` (the head branch is in a fork), `head`, `head_sha`, `last_commit`, `mergeable`, `merge_state`, `review_decision`, `auto_merge`, `ci`, `failing`, `findings`, `open_threads.bot`, `open_threads.human` (a person other than the user wrote in the thread), `threads_truncated`, `human_reviews` (review bodies from a person other than the user) |
 | `dependabot` | `repo`, `number`, `url`, `title`, `created`, `head_sha`, `base`, `mergeable`, `merge_state`, `auto_merge`, `ci`, `failing`, `update_types`, `major` (`null` when Dependabot's commit does not give a type for each dependency; a 0.x minor update counts as major), `behind_by`, `last_rebase_request`, `repo_automerge_workflow` |
 | `issue` | `repo`, `number`, `title`, `bot`, `updated`, `repo_pushed`, `stale` (no update in 60 days), `labels`, `comments` |
 | `clone` | `repo`, `path`, `default_branch` |
@@ -122,13 +122,14 @@ row that matches.
 | 2 | `draft` is true | In progress |
 | 3 | `last_commit` is less than 60 minutes before `meta.generated_at`, or a `local_branch` record with the same `repo` and `branch` equal to `head` has `worktree_dirty` true | In progress |
 | 4 | `mergeable` is `CONFLICTING` | Needs you: conflict |
-| 5 | `open_threads.human` > 0, or `review_decision` is `CHANGES_REQUESTED` | Needs you: human comments |
-| 6 | `ci` is `FAILURE` or `ERROR`, or `findings` is not empty, or `open_threads.bot` > 0 | Shepherd |
-| 7 | `ci` is `PENDING` or `EXPECTED` | Waiting: CI |
-| 8 | `review_decision` is `REVIEW_REQUIRED` | Needs you: waiting on review |
-| 9 | `auto_merge` is true | Waiting: auto-merge |
-| 10 | `ci` is `SUCCESS` or `NONE`, and `merge_state` is `CLEAN` | Needs you: ready to merge |
-| 11 | Any other state | Needs you: other (quote `ci`, `mergeable`, `merge_state`) |
+| 5 | `open_threads.human` > 0, or `human_reviews` > 0, or `threads_truncated` is true, or `review_decision` is `CHANGES_REQUESTED` | Needs you: human comments |
+| 6 | `cross_repo` is true | Needs you: PR from a fork (rounds does not shepherd it) |
+| 7 | `ci` is `FAILURE` or `ERROR`, or `findings` is not empty, or `open_threads.bot` > 0 | Shepherd |
+| 8 | `ci` is `PENDING` or `EXPECTED` | Waiting: CI |
+| 9 | `review_decision` is `REVIEW_REQUIRED` | Needs you: waiting on review |
+| 10 | `auto_merge` is true | Waiting: auto-merge |
+| 11 | `ci` is `SUCCESS` or `NONE`, and `merge_state` is `CLEAN` | Needs you: ready to merge |
+| 12 | Any other state | Needs you: other (quote `ci`, `mergeable`, `merge_state`) |
 
 Row 3 protects work in another session. A PR with a recent commit or with uncommitted
 changes in its worktree belongs to someone who is working on it now.
@@ -224,7 +225,10 @@ For each PR in the Rebase list:
 
 1. Run `gh pr view <url> --json state,headRefOid`. If `state` is not `OPEN`, or
    `headRefOid` is not the record's `head_sha`, skip it: Dependabot already changed it.
-2. Run `gh pr comment <url> --body "@dependabot rebase"`.
+2. Run `gh pr view <url> --json comments --jq '[.comments[] | select(.body |
+   startswith("@dependabot rebase")) | .createdAt] | max'`. This reads every comment.
+   If it prints a time less than 24 hours ago, skip the PR.
+3. Run `gh pr comment <url> --body "@dependabot rebase"`.
 
 ### 4c: Merge Dependabot PRs
 
@@ -253,6 +257,14 @@ reason.
 Start one subagent for each PR in the Shepherd list. Run at most 2 subagents at the
 same time, because each one can run a full build. When one finishes, start the next.
 
+Just before you start each subagent, check the PR again. In ask mode, the user's yes
+can come long after Step 1. Run `gh pr view <url> --json
+state,isDraft,headRefOid,reviewDecision,latestReviews`. Start the subagent only if
+`state` is `OPEN`, `isDraft` is false, `headRefOid` is the record's `head_sha`, and
+`reviewDecision` is not `CHANGES_REQUESTED`. Also, no entry in `latestReviews` from a
+login other than the user's can have a `submittedAt` later than `meta.generated_at`.
+If a check fails, move the PR to "Next run" with the reason.
+
 Start each one with the Agent tool: `subagent_type` `general-purpose`, `model`
 `sonnet`, and `run_in_background` true. The subagent does not see this conversation,
 so the task message must carry every fact. Use this message, with the values filled in:
@@ -270,8 +282,9 @@ Rules for every step:
   every Bash command with `cd WT && `. This includes each command that the shepherd-pr
   skill runs, such as `gh pr view`, `git add`, `git commit`, and `git push`.
 - Push only to the branch <head> on origin. Never force-push.
-- Do not reply to a comment from a person. Rounds sent you this PR because it has no
-  open thread from a person.
+- Post no PR comment and no reply, and resolve no thread. Tell the shepherd-pr skill
+  that these instructions forbid replies: it then fixes the code, leaves each thread
+  open, and lists the replies that it held back.
 
 1. Prepare the worktree:
    a. Run: git -C <clone path> fetch origin <head>
@@ -386,5 +399,5 @@ Run this list against the report before you print it.
 - [ ] Before each delete, `rev-parse` printed the record's `sha`, and the report gives
       the full SHA of each deleted branch.
 - [ ] Each item in the report has a link or a path.
-- [ ] You posted no PR comment except `@dependabot rebase`, and you requested no
-      reviewer.
+- [ ] You and your subagents posted no PR comment except `@dependabot rebase`, and
+      you requested no reviewer.
