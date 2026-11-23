@@ -13,6 +13,22 @@ if [ -z "$url" ] || [ -z "$login" ] || [ -z "$since" ]; then
   exit 2
 fi
 
+# Both values go into the jq program text (gh --jq has no --arg), so accept
+# only a GitHub login and an ISO 8601 UTC time.
+case $login in
+  *[!A-Za-z0-9-]*)
+    echo "recheck.sh: not a GitHub login: $login" >&2
+    exit 2
+    ;;
+esac
+case $since in
+  [0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9]:[0-6][0-9]Z) ;;
+  *)
+    echo "recheck.sh: not an ISO 8601 UTC time: $since" >&2
+    exit 2
+    ;;
+esac
+
 path=${url#https://github.com/}
 owner=${path%%/*}
 rest=${path#*/}
