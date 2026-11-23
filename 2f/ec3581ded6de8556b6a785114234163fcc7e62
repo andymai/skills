@@ -1,0 +1,19 @@
+skills/rounds/scripts/recheck.sh
+  s_25db227b25e69a::t_c22b8090340451 16-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2fec3581ded6de8556b6a785114234163fcc7e62",
+  "prompts": {},
+  "sessions": {
+    "s_25db227b25e69a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a14173c0-1f6f-4f1c-89c2-16ba0ab74a75",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Andy Aragon <hi@andymai.com>"
+    }
+  }
+}
