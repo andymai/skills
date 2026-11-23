@@ -8,7 +8,7 @@ description: >
   is shepherd-pr), not for a standup or a status update for other people, and not for
   a calendar or a plan for the day.
 argument-hint: "[report]"
-allowed-tools: [Read, "Bash(${CLAUDE_SKILL_DIR}/scripts/gather.sh *)"]
+allowed-tools: [Read, "Bash(${CLAUDE_SKILL_DIR}/scripts/gather.sh *)", "Bash(${CLAUDE_SKILL_DIR}/scripts/recheck.sh *)"]
 ---
 
 # Rounds
@@ -258,19 +258,23 @@ Start one subagent for each PR in the Shepherd list. Run at most 2 subagents at 
 same time, because each one can run a full build. When one finishes, start the next.
 
 Just before you start each subagent, check the PR again. In ask mode, the user's yes
-can come long after Step 1. Run `gh pr view <url> --json
-state,isDraft,headRefOid,reviewDecision,latestReviews,comments`. Start the subagent
-only if each of these conditions is true:
+can come long after Step 1. Run:
 
-- `state` is `OPEN`, and `isDraft` is false.
-- `headRefOid` is the record's `head_sha`.
-- `reviewDecision` is not `CHANGES_REQUESTED`.
-- No entry in `latestReviews` from a login other than `meta.login` has a
-  `submittedAt` later than `meta.generated_at`.
-- No entry in `comments` from a login other than `meta.login` has a `createdAt` later
-  than `meta.generated_at`.
+```bash
+${CLAUDE_SKILL_DIR}/scripts/recheck.sh <url> <meta.login> <meta.generated_at>
+```
 
-If a condition is false, move the PR to "Next run" with the reason.
+It prints one JSON line. `new_human` counts the reviews, PR comments, and thread
+replies that a person other than the user wrote after `meta.generated_at`. Bots do not
+count. Start the subagent only if each of these conditions is true:
+
+- `state` is `OPEN`, and `draft` is false.
+- `head_sha` is the record's `head_sha`.
+- `review_decision` is not `CHANGES_REQUESTED`.
+- `new_human` is 0, and `truncated` is false.
+
+If the script exits with a code that is not 0, or a condition is false, move the PR to
+"Next run" with the reason.
 
 Start each one with the Agent tool: `subagent_type` `general-purpose`, `model`
 `sonnet`, and `run_in_background` true. The subagent does not see this conversation,
