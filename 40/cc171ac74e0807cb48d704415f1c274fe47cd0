@@ -1,0 +1,56 @@
+skills/rounds/SKILL.md
+  s_25db227b25e69a::t_551239a80fa304 11,30-31,62-64,66-67,69-73,81-82,87-90,92-94,96-97,103,106,133,143-149,154-155,172-177
+  s_25db227b25e69a::t_b39ff6268c3118 243-244
+  s_25db227b25e69a::t_2fa7ac28f941a5 1-10,12-29,32-61,65,68,74-80,83-86,91,95,98-102,104-105,107-132,134-142,150-153,156-171,178-195,198-204,220-235,239-242,245-264,302-306,309,314-320,322-338,340-342,344-385,388-390
+  s_25db227b25e69a::t_146b3cb8ab5b18 196-197,205-219,265-301,307-308,310-313,321,339,343,386-387
+  s_25db227b25e69a::t_cd587639d97594 236-238
+evals/rounds-stays-quiet-on-standup/prompt.md
+  s_25db227b25e69a::t_8aaefc143ab3c1 1-8
+evals/rounds-fires-on-whats-open/graders/skill-fired.md
+  s_25db227b25e69a::t_8aaefc143ab3c1 1-5
+evals/rounds-fires-on-whats-open/prompt.md
+  s_25db227b25e69a::t_8aaefc143ab3c1 1-8
+evals/rounds-stays-quiet-on-day-plan/prompt.md
+  s_25db227b25e69a::t_8aaefc143ab3c1 1-8
+AGENTS.md
+  s_25db227b25e69a::t_cc44a8e1787610 144
+skills/rounds/scripts/gather.sh
+  s_25db227b25e69a::t_25c084249a18e9 15-16,23-24,42-47,49,51-61,118-148,151-152,168-172,174-179,181-185,189-192,194,200,217,225,237,239,267-268,274-275,289,292,295-310,312
+  s_25db227b25e69a::t_556caec4435d73 108,260
+  s_25db227b25e69a::t_172a102ea1a82b 271
+  s_25db227b25e69a::t_c5930bca2393ce 1-14,17-22,25-38,40-41,48,50,62-107,109-117,149-150,153-167,173,180,186-188,193,195-199,201-208,212-213,216,218-224,226-236,238,240-246,249-259,261,263-264,269-270,272,276-281,313-324
+  s_25db227b25e69a::t_bdb2c217ec57a8 247-248
+  s_25db227b25e69a::t_0edcdb211d70ec 262,265-266,273
+  s_25db227b25e69a::t_022dcd8b079936 282-284,286-288,290-291,293-294,311
+  s_25db227b25e69a::t_7ff67c4e421d8c 285
+  s_25db227b25e69a::t_8286a6e7ecc00b 325
+  s_25db227b25e69a::t_fe9ddce7bb7784 39,209-211,214-215
+evals/rounds-stays-quiet-on-one-pr/prompt.md
+  s_25db227b25e69a::t_8aaefc143ab3c1 1-8
+.claude-plugin/plugin.json
+  s_25db227b25e69a::t_cc44a8e1787610 5
+README.md
+  s_25db227b25e69a::t_146b3cb8ab5b18 89
+evals/rounds-stays-quiet-on-day-plan/graders/not-fired.md
+  s_25db227b25e69a::t_a638c5a8e39fbf 1-8
+evals/rounds-stays-quiet-on-one-pr/graders/not-fired.md
+  s_25db227b25e69a::t_54b87c0f674ce5 1-8
+evals/rounds-stays-quiet-on-standup/graders/not-fired.md
+  s_25db227b25e69a::t_9ee065938d7c18 1-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "40cc171ac74e0807cb48d704415f1c274fe47cd0",
+  "prompts": {},
+  "sessions": {
+    "s_25db227b25e69a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a14173c0-1f6f-4f1c-89c2-16ba0ab74a75",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Andy Aragon <hi@andymai.com>"
+    }
+  }
+}
